@@ -20,15 +20,35 @@ function Money() {
     });
     return (
         <MyLayout>
+            {selected.tags.join(',')}
+            <hr/>
+            {selected.note}
+            <hr/>
+            {selected.category}
+            <hr/>
+            {selected.amount}
             <TagsSection value={selected.tags}
                          onChange={(tags) => setSelected({
                              ...selected,
                              tags: tags
-                         })}
+                         })}/>
+            <NoteSection value={selected.note}
+                         onChange={(note)=>{setSelected({
+                                 ...selected,
+                                 note:note
+                         });}}/>
+            <CategorySection value={selected.category}
+                             onChange={(category)=>{setSelected({
+                                 ...selected,
+                                 category: category
+                             });}}/>
+            <NumberPadSection value={selected.amount}
+                              onChange={(amount)=>{setSelected({
+                                  ...selected,
+                                  amount:amount
+                              });}}
+                              onOk={()=>{}}
             />
-            <NoteSection/>
-            <CategorySection/>
-            <NumberPadSection/>
         </MyLayout>
     );
 }
