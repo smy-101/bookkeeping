@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames'
 
 let importAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().forEach(requireContext);
 try {
@@ -9,11 +10,12 @@ try {
 
 type Props = {
     name?: string
-}
+} & React.SVGAttributes<SVGElement>
 
 const Icon = (props: Props) => {
+    const {name,children,className,...rest} = props;
     return (
-        <svg className="icon">
+        <svg className={classNames('icon',className)} {...rest}>
             {props.name && <use xlinkHref={'#' + props.name}/>}
         </svg>
     );
