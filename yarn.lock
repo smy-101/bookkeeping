@@ -3542,6 +3542,11 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+dayjs@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.10.1.tgz?cache=0&sync_timestamp=1609677556901&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdayjs%2Fdownload%2Fdayjs-1.10.1.tgz#114f678624842035396667a24eb1436814bc16fd"
+  integrity sha1-EU9nhiSEIDU5ZmeiTrFDaBS8Fv0=
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.npm.taobao.org/debug/download/debug-2.6.9.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdebug%2Fdownload%2Fdebug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
