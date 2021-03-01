@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content:space-between;
   align-items: center;
+  margin-bottom: 6px;
   >h2{
     color: white;
   }
