@@ -7,6 +7,7 @@ import {NumberPadSection} from './Money/NumberPadSection';
 import {TagsSection} from './Money/TagsSection';
 import {useRecords} from '../hooks/useRecords';
 import {Date} from '../components/Date';
+import dayjs from 'dayjs';
 
 const MyLayout = styled(Layout)`
   display: flex;
@@ -15,12 +16,13 @@ const MyLayout = styled(Layout)`
 const CategorySectionWrapper = styled.div`
  background: #c4c4c4;
 `
-
+const today = dayjs().format('YYYY-MM-DD');
 const defaultFormData = {
     tagIds: [] as number[],
     note: '',
     category: '-' as ('-' | '+'),
     amount: 0,
+    date:today
 };
 
 function Money() {
@@ -42,8 +44,8 @@ function Money() {
     };
     return (
         <MyLayout scrollTop={9999} content="记账">
-            {/*{JSON.stringify(selected)}*/}
-            <Date/>
+            {JSON.stringify(selected)}
+            <Date value={selected.date} onChange={(date)=>onChange({date})}/>
             <TagsSection value={selected.tagIds}
                          onChange={(tagIds) => onChange({tagIds})}/>
             <NoteSection value={selected.note}

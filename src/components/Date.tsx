@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {ChangeEventHandler} from 'react';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,22 +30,25 @@ const Wrapper = styled.div`
     }
 `
 
-const Date = () => {
-    const today = dayjs().format('YYYY-MM-DD');
-    const [date, setDate] = useState(today);
-    const onDateChange=(e: { target: { value: any; }; })=>{
-        setDate(e.target.value);
-        console.log(e.target.value);
-    }
+type Props={
+    value:string;
+    onChange:(value:string)=>void;
+}
+
+const Date:React.FC<Props> = (props) => {
+    const date = props.value;
+    const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        props.onChange(e.target.value);
+    };
+
 
     return (
         <Wrapper>
             <div>当前选择日期：</div>
             <button className="date">
                 <strong>{date}</strong>
-                <input type="date" value={date} onChange={onDateChange}/>
+                <input type="date" value={date} onChange={onChange}/>
             </button>
-
         </Wrapper>
     );
 };
