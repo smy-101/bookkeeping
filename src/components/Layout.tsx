@@ -1,6 +1,7 @@
 import Nav from './Nav';
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
+import {Header} from './Header';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -14,6 +15,7 @@ const Main = styled.div`
 type Props = {
     className?: string;
     scrollTop?: number;
+    content:string;
 };
 const Layout: React.FC<Props> = (props) => {
     const mainRef = useRef<HTMLDivElement>(null);
@@ -27,6 +29,7 @@ const Layout: React.FC<Props> = (props) => {
     }, [props.scrollTop]);
     return (
         <Wrapper>
+            <Header content={props.content}/>
             <Main ref={mainRef} className={props.className}>
                 {props.children}
             </Main>

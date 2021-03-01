@@ -55,7 +55,7 @@ const Tag: React.FC = () => {
         history.goBack();
     };
     return (
-        <Layout>
+        <Layout content="">
             <Topbar>
                 <Icon name="left" onClick={onClickBack}/>
                 <span>编辑标签</span>

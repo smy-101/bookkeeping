@@ -30,7 +30,7 @@ const TagList = styled.ol`
 function Tags() {
     const {tags,addTag}=useTags();
     return (
-        <Layout>
+        <Layout content="编辑标签">
             <TagList>
                 {tags.map(tag=>
                     <li key={tag.id}>

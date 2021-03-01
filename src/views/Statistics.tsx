@@ -50,7 +50,7 @@ function Statistics() {
     });
     console.log(array);
     return (
-        <Layout>
+        <Layout content="明细">
             <CategoryWrapper>
                 <CategorySection value={category}
                                  onChange={value => setCategory(value)}/>
