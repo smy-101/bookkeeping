@@ -36,7 +36,7 @@ function Statistics() {
     const hash: { [Key: string]: RecordItem[] } = {};
     const selectedRecords = records.filter(r => r.category === category);
     selectedRecords.forEach(r => {
-        const key = dayjs(r.date).format('YYYY年MM月DD日');
+        const key = dayjs(r.date).format('YYYY-MM-DD');
         if (!(key in hash)) {
             hash[key] = [];
         }
@@ -48,7 +48,6 @@ function Statistics() {
         if (a[0] < b[0]) return 1;
         return 0;
     });
-    console.log(array);
     return (
         <Layout content="明细">
             <CategoryWrapper>
