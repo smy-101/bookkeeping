@@ -6,6 +6,7 @@ import {NoteSection} from './Money/NoteSection';
 import {NumberPadSection} from './Money/NumberPadSection';
 import {TagsSection} from './Money/TagsSection';
 import {useRecords} from '../hooks/useRecords';
+import {Date} from '../components/Date';
 
 const MyLayout = styled(Layout)`
   display: flex;
@@ -41,8 +42,8 @@ function Money() {
     };
     return (
         <MyLayout scrollTop={9999} content="记账">
-            {JSON.stringify(selected)}
-            <hr/>
+            {/*{JSON.stringify(selected)}*/}
+            <Date/>
             <TagsSection value={selected.tagIds}
                          onChange={(tagIds) => onChange({tagIds})}/>
             <NoteSection value={selected.note}
