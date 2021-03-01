@@ -40,8 +40,8 @@ function Money() {
             alert('保存成功')
             setSelected(defaultFormData);
         }
-
     };
+
     return (
         <MyLayout scrollTop={9999} content="记账">
             {/*{JSON.stringify(selected)}*/}

@@ -10,7 +10,7 @@ const NavWrapper = styled.nav`
   > ul {
     display:flex;
     > li{
-      width: 33.3333%;
+      width: 25%;
       text-align:center;
       > a {
         display: flex;
@@ -51,8 +51,14 @@ const Nav = () => {
         </li>
         <li>
           <NavLink to="/statistics" activeClassName="selected">
-            <Icon name="statistics"/>
+            <Icon name="detailed"/>
             明细
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/charts" activeClassName="selected">
+            <Icon name="statistics"/>
+            统计
           </NavLink>
         </li>
       </ul>
