@@ -17,12 +17,14 @@ const CategorySectionWrapper = styled.div`
  background: #c4c4c4;
 `
 const today = dayjs().format('YYYY-MM-DD');
+const month = dayjs().format('YYYY-MM');
 const defaultFormData = {
     tagIds: [] as number[],
     note: '',
     category: '-' as ('-' | '+'),
     amount: 0,
-    date:today
+    date:today,
+    month:month
 };
 
 function Money() {

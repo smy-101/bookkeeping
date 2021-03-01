@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import {Layout} from '../components/Layout';
 import {Echarts} from '../components/Echarts';
 import styled from 'styled-components';
-import { useRecords} from '../hooks/useRecords';
+import {RecordItem, useRecords} from '../hooks/useRecords';
 import _ from 'lodash';
 import dayjs from 'dayjs';
+import {log} from 'util';
 
 const Wrapper = styled.div`
   height: 25vh;
@@ -59,26 +60,39 @@ const Charts = () => {
     const today = dayjs().format('YYYY-MM');
     const [month,setMonth]=useState(today);
     const {records} = useRecords();
-    const incomeRecords = records.filter(r => r.category === '-');
-    const expendRecords = records.filter(r=>r.category === '+');
-    const dailyIncome = _.groupBy(incomeRecords,(r)=>{
-        return dayjs(r.date).format('YYYY-MM-DD')
-    })
-    const dailyExpend = _.groupBy(expendRecords,(r)=>{
-        return dayjs(r.date).format('YYYY-MM-DD')
-    })
-    const monthIncome = _.groupBy(incomeRecords,(r)=>{
-        return dayjs(r.date).format('YYYY-MM')
-    })
-
     const onMonthChange=(e: { target: { value: any; }; })=>{
         setMonth(e.target.value);
     }
+    // const expendHash: { [Key: string]: RecordItem[] } = {};
+    const expendRecord = records.filter(r=>r.category==='-');
+
+    let sum=0;
+    const monthExpend = expendRecord.filter(r=>r.month===month)
+    monthExpend.forEach((m)=>{
+        return sum = m.amount + sum;
+    });
+    // const day = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28'];
+    // let days;
+    // if (dayjs(month).daysInMonth()===28){
+    //     days = day;
+    // }else if (dayjs(month).daysInMonth()===29){
+    //     days = [...day,'29'];
+    // }else if (dayjs(month).daysInMonth()===30){
+    //     days = [...day,'29','30'];
+    // }else if (dayjs(month).daysInMonth()===31){
+    //     days=[...day,'29','30','31']
+    // }
 
 
-    console.log(monthIncome);
-    console.log(dailyIncome);
-    console.log(dailyExpend);
+    console.log(sum);
+    console.log(monthExpend);
+
+
+
+
+
+
+    // console.log(dailyIncome);
     return (
         <Layout content="统计">
             <MonthWrapper>

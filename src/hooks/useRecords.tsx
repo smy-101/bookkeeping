@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useUpdate} from './useUpdate';
+import dayjs from 'dayjs';
 
 export type RecordItem = {
     tagIds: number[];
@@ -8,6 +9,7 @@ export type RecordItem = {
     amount: number;
     date: string;
     createdAt: string;
+    month:string;
 };
 
 type newRecordItem = Omit<RecordItem, 'createdAt'>;
@@ -30,7 +32,7 @@ const useRecords = () => {
             alert('请选择标签');
             return false;
         }
-        const record = {...newRecord, createdAt: (new Date()).toISOString()};
+        const record = {...newRecord, createdAt: (new Date()).toISOString(),month:dayjs(newRecord.date).format('YYYY-MM')};
         setRecords([...records, record]);
         return true;
     };
