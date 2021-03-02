@@ -2,26 +2,29 @@ import React, {useState} from 'react';
 import {Layout} from '../components/Layout';
 import {Echarts} from '../components/Echarts';
 import styled from 'styled-components';
-import {RecordItem, useRecords} from '../hooks/useRecords';
-import _ from 'lodash';
+import {useRecords} from '../hooks/useRecords';
+// import _ from 'lodash';
 import dayjs from 'dayjs';
-import {log} from 'util';
+import {Total} from '../components/Total';
+import NP from 'number-precision';
 
 const Wrapper = styled.div`
   height: 25vh;
   width: 100vw;
-`
+`;
 
 const MonthWrapper = styled.div`
   display: flex;
   align-items: center;
   min-height: 36px;
   background: rgb(0, 102, 204);
-  >div{
+
+  > div {
     color: white;
     margin-left: 14px;
   }
-  >.month{
+
+  > .month {
     color: white;
     border: 0;
     background-color: transparent;
@@ -30,7 +33,8 @@ const MonthWrapper = styled.div`
     overflow: hidden;
     height: 30px;
     width: 120px;
-    >input{
+
+    > input {
       position: absolute;
       left: 0;
       top: 0;
@@ -39,10 +43,10 @@ const MonthWrapper = styled.div`
       opacity: 0;
     }
   }
-`
+`;
 
 
-const option =  {
+const option = {
     xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -58,19 +62,27 @@ const option =  {
 
 const Charts = () => {
     const today = dayjs().format('YYYY-MM');
-    const [month,setMonth]=useState(today);
+    const [month, setMonth] = useState(today);
     const {records} = useRecords();
-    const onMonthChange=(e: { target: { value: any; }; })=>{
+    const onMonthChange = (e: { target: { value: any; }; }) => {
         setMonth(e.target.value);
-    }
-    // const expendHash: { [Key: string]: RecordItem[] } = {};
-    const expendRecord = records.filter(r=>r.category==='-');
+    };
+    const expendRecord = records.filter(r => r.category === '-');
+    const incomeRecord = records.filter(r => r.category === '+');
 
-    let sum=0;
-    const monthExpend = expendRecord.filter(r=>r.month===month)
-    monthExpend.forEach((m)=>{
-        return sum = m.amount + sum;
+    let incomeSum = 0;
+    const monthIncome = incomeRecord.filter(r => r.month === month);
+    monthIncome.forEach((m) => {
+        return incomeSum = NP.plus(m.amount, incomeSum);
     });
+
+    let expendSum = 0;
+    const monthExpend = expendRecord.filter(r => r.month === month);
+    monthExpend.forEach((m) => {
+        return expendSum = NP.plus(m.amount, expendSum);
+    });
+
+    let balance = NP.minus(incomeSum, expendSum);
     // const day = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28'];
     // let days;
     // if (dayjs(month).daysInMonth()===28){
@@ -84,12 +96,8 @@ const Charts = () => {
     // }
 
 
-    console.log(sum);
+    console.log(balance);
     console.log(monthExpend);
-
-
-
-
 
 
     // console.log(dailyIncome);
@@ -102,6 +110,7 @@ const Charts = () => {
                     <input type="month" value={month} onChange={onMonthChange}/>
                 </button>
             </MonthWrapper>
+            <Total balance={balance} expend={expendSum} income={incomeSum}/>
             <Wrapper>
                 <Echarts option={option}/>
             </Wrapper>
