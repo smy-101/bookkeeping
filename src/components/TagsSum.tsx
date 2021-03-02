@@ -2,11 +2,12 @@ import React from 'react';
 import {useTags} from '../hooks/useTags';
 import NP from 'number-precision';
 import {RecordItem} from '../hooks/useRecords';
+import {PieChart} from './Piechart';
 type Props = {
     monthExpend: RecordItem[];
 }
 
-type data = {
+export type data = {
     value:number;
     name:string;
 }
@@ -32,7 +33,7 @@ const TagsSum: React.FC<Props> = (props) => {
     console.log(tagIds);
     console.log(data);
     return (
-        <div>tags</div>
+        <PieChart data={data}/>
     );
 };
 

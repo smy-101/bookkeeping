@@ -14,6 +14,13 @@ const Center =styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  >.pie{
+    height: 30vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const Wrapper = styled.div`
@@ -173,7 +180,11 @@ const Charts = () => {
                     }
                 </Wrapper>
             </Center>
-            <TagsSum monthExpend={monthExpend}/>
+            <Center>
+                <div className="pie">
+                    <TagsSum monthExpend={monthExpend}/>
+                </div>
+            </Center>
         </Layout>
     );
 };
