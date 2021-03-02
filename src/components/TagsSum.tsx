@@ -22,8 +22,11 @@ const TagsSum: React.FC<Props> = (props) => {
     let data:data[]=[];
     for (let i=0;i<tagIds.length;i++){
         let amount = 0;
-        props.monthExpend.filter(r=>r.tagIds[0]===tagIds[i]).forEach((r)=>{amount=NP.plus(r.amount,amount)})
-        data.push({value:amount,name:getName(tagIds[i])})
+        if (props.monthExpend.filter(r=>r.tagIds[0]===tagIds[i]).length===0){
+        }else {
+            props.monthExpend.filter(r=>r.tagIds[0]===tagIds[i]).forEach((r)=>{amount=NP.plus(r.amount,amount)})
+            data.push({value:amount,name:getName(tagIds[i])})
+        }
     }
 
     console.log(tagIds);
