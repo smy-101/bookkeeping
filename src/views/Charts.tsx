@@ -8,6 +8,7 @@ import {Total} from '../components/Total';
 import NP from 'number-precision';
 import {days} from '../lib/days'
 import {CategorySection} from './Money/CategorySection';
+import {TagsSum} from '../components/TagsSum';
 
 const Center =styled.div`
   display: flex;
@@ -150,7 +151,6 @@ const Charts = () => {
             yIncome.push(y)
         }
     }
-    console.log(category);
 
     return (
         <Layout content="统计">
@@ -173,7 +173,7 @@ const Charts = () => {
                     }
                 </Wrapper>
             </Center>
-
+            <TagsSum monthExpend={monthExpend}/>
         </Layout>
     );
 };
