@@ -3,10 +3,11 @@ import {Layout} from '../components/Layout';
 import {Echarts} from '../components/Echarts';
 import styled from 'styled-components';
 import {useRecords} from '../hooks/useRecords';
-// import _ from 'lodash';
+import _ from 'lodash';
 import dayjs from 'dayjs';
 import {Total} from '../components/Total';
 import NP from 'number-precision';
+import {days} from '../lib/days'
 
 const Wrapper = styled.div`
   height: 25vh;
@@ -83,23 +84,38 @@ const Charts = () => {
     });
 
     let balance = NP.minus(incomeSum, expendSum);
-    // const day = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28'];
-    // let days;
-    // if (dayjs(month).daysInMonth()===28){
-    //     days = day;
-    // }else if (dayjs(month).daysInMonth()===29){
-    //     days = [...day,'29'];
-    // }else if (dayjs(month).daysInMonth()===30){
-    //     days = [...day,'29','30'];
-    // }else if (dayjs(month).daysInMonth()===31){
-    //     days=[...day,'29','30','31']
-    // }
 
+    const monthlyExpend = _.groupBy(monthExpend,(m)=>{
+        return dayjs(m.date).format('YYYY-MM-DD');
+    })
 
-    console.log(balance);
-    console.log(monthExpend);
+    // let y=0;
+    // const dailyExpend = expendRecord.filter(r=>r.date===`${month}-01`).forEach((d)=>{
+    //     return y = NP.plus(d.amount,y)
+    // })
 
+    let yExpend=[];
 
+    for (let i = 1; i <= dayjs(month).daysInMonth(); i++) {
+        let date: string;
+        if (i < 10) {
+            date = `${month}-0${i}`;
+        } else {
+            date = `${month}-${i}`;
+        }
+        let y = 0;
+        if ((expendRecord.filter(r => r.date === date)).length === 0) {
+            yExpend.push(0);
+        } else {
+            const dailyExpend = expendRecord.filter(r => r.date === date);
+            dailyExpend.forEach((d) => {
+                return y = NP.plus(d.amount, y);
+            });
+            yExpend.push(y);
+        }
+    }
+    console.log(yExpend);
+    // console.log(days(month));
     // console.log(dailyIncome);
     return (
         <Layout content="统计">
