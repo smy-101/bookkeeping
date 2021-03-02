@@ -3,14 +3,27 @@ import {Layout} from '../components/Layout';
 import {Echarts} from '../components/Echarts';
 import styled from 'styled-components';
 import {useRecords} from '../hooks/useRecords';
-import _ from 'lodash';
 import dayjs from 'dayjs';
 import {Total} from '../components/Total';
 import NP from 'number-precision';
 import {days} from '../lib/days'
+import {CategorySection} from './Money/CategorySection';
+
+const Center =styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const Wrapper = styled.div`
-  height: 25vh;
+  background: white;
+  margin: 0 8px 8px 8px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 30vh;
   width: 100vw;
 `;
 
@@ -45,23 +58,36 @@ const MonthWrapper = styled.div`
     }
   }
 `;
+const CategoryWrapper = styled.div`
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75vw;
+  >section{
+    border: 1px solid rgb(164, 164, 166);
+    border-radius: 4px;
+    margin-top: 16px;
+    font-size: 14px;
+    >ul{
+      >li{
+        color: rgb(159, 159, 159);
+        padding: 4px;
+        &.selected{
+          background: rgb(75, 156, 240);
+          color: white;
+        }
+        &.selected::after{
+          display: none;
+        }
+      }
+    }
+  }
+`
 
-
-const option = {
-    xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [{
-        data: [150, 230, 224, 218, 135, 147, 260],
-        type: 'line'
-    }]
-};
 
 const Charts = () => {
+    const [category, setCategory] = useState<'+' | '-'>('-');
     const today = dayjs().format('YYYY-MM');
     const [month, setMonth] = useState(today);
     const {records} = useRecords();
@@ -70,7 +96,6 @@ const Charts = () => {
     };
     const expendRecord = records.filter(r => r.category === '-');
     const incomeRecord = records.filter(r => r.category === '+');
-
     let incomeSum = 0;
     const monthIncome = incomeRecord.filter(r => r.month === month);
     monthIncome.forEach((m) => {
@@ -85,17 +110,8 @@ const Charts = () => {
 
     let balance = NP.minus(incomeSum, expendSum);
 
-    const monthlyExpend = _.groupBy(monthExpend,(m)=>{
-        return dayjs(m.date).format('YYYY-MM-DD');
-    })
-
-    // let y=0;
-    // const dailyExpend = expendRecord.filter(r=>r.date===`${month}-01`).forEach((d)=>{
-    //     return y = NP.plus(d.amount,y)
-    // })
 
     let yExpend=[];
-
     for (let i = 1; i <= dayjs(month).daysInMonth(); i++) {
         let date: string;
         if (i < 10) {
@@ -114,9 +130,28 @@ const Charts = () => {
             yExpend.push(y);
         }
     }
-    console.log(yExpend);
-    // console.log(days(month));
-    // console.log(dailyIncome);
+
+    let yIncome=[];
+    for (let i=1;i<=dayjs(month).daysInMonth();i++){
+        let date:string;
+        if (i < 10) {
+            date = `${month}-0${i}`;
+        } else {
+            date = `${month}-${i}`;
+        }
+        let y = 0;
+        if ((incomeRecord.filter(r=>r.date===date)).length===0){
+            yIncome.push(0)
+        }else {
+            const dailyIncome = incomeRecord.filter(r=>r.date===date);
+            dailyIncome.forEach((d)=>{
+                return y = NP.plus(d.amount,y)
+            })
+            yIncome.push(y)
+        }
+    }
+    console.log(category);
+
     return (
         <Layout content="统计">
             <MonthWrapper>
@@ -127,9 +162,18 @@ const Charts = () => {
                 </button>
             </MonthWrapper>
             <Total balance={balance} expend={expendSum} income={incomeSum}/>
-            <Wrapper>
-                <Echarts option={option}/>
-            </Wrapper>
+            <Center>
+                <Wrapper>
+                    <CategoryWrapper>
+                        <CategorySection value={category} onChange={value => setCategory(value)}/>
+                    </CategoryWrapper>
+                    {category==='-'?
+                        <Echarts days={days(month)} yExpend={yExpend}/> :
+                        <Echarts days={days(month)} yExpend={yIncome}/>
+                    }
+                </Wrapper>
+            </Center>
+
         </Layout>
     );
 };
