@@ -8,7 +8,7 @@ import {Total} from '../components/Total';
 import NP from 'number-precision';
 import {days} from '../lib/days'
 import {CategorySection} from './Money/CategorySection';
-import {TagsSum} from '../components/TagsSum';
+// import {TagsSum} from '../components/TagsSum';
 
 const Center =styled.div`
   display: flex;
@@ -180,11 +180,11 @@ const Charts = () => {
                     }
                 </Wrapper>
             </Center>
-            <Center>
-                <div className="pie">
-                    <TagsSum monthExpend={monthExpend}/>
-                </div>
-            </Center>
+            {/*<Center>*/}
+            {/*    <div className="pie">*/}
+            {/*        <TagsSum monthExpend={monthExpend}/>*/}
+            {/*    </div>*/}
+            {/*</Center>*/}
         </Layout>
     );
 };
