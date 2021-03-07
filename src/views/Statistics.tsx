@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {RecordItem, useRecords} from '../hooks/useRecords';
 import {useTags} from '../hooks/useTags';
 import dayjs from 'dayjs';
+import Icon from '../components/Icon';
 
 const CategoryWrapper = styled.div`
   background: white;
@@ -28,6 +29,17 @@ const Header = styled.h3`
   line-height: 20px;
   font-size: 18px;
 `;
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  >.icon{
+    height: 30vh;
+    width: 30vw;
+  }
+
+`
 
 function Statistics() {
     const [category, setCategory] = useState<'+' | '-'>('-');
@@ -56,8 +68,7 @@ function Statistics() {
             window.alert("删除记录成功");
         }
     }
-    console.log(records);
-
+    // console.log(records);
 
     return (
         <Layout content="明细">
@@ -65,7 +76,12 @@ function Statistics() {
                 <CategorySection value={category}
                                  onChange={value => setCategory(value)}/>
             </CategoryWrapper>
-            {array.map(([date, records]) => <div key={records[0].createdAt} >
+            {selectedRecords.length===0 ?
+                <Wrapper>
+                    <Icon name="nodata"/>
+                </Wrapper>
+                 :
+            array.map(([date, records]) => <div key={records[0].createdAt} >
                     <Header>
                         {date}
                     </Header>
@@ -86,7 +102,6 @@ function Statistics() {
                     </div>
                 </div>
             )}
-
         </Layout>
     );
 }
