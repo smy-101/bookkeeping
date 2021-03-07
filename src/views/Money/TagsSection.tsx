@@ -35,7 +35,7 @@ const TagsSection: React.FC<Props> = (props) => {
       // 如果 tag 已被选中，就复制所有没有被选中的 tag，作为新的 selectedTag
       props.onChange(selectedTagIds.filter(t => t !== tagId));
     } else {
-      props.onChange([...selectedTagIds, tagId]);
+      props.onChange([tagId]);
     }
   };
   const getClass = (tagId: number) => selectedTagIds.indexOf(tagId) >= 0 ? 'selected' : '';
