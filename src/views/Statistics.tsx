@@ -26,12 +26,12 @@ const Item = styled.div`
 const Header = styled.h3`
   padding: 10px 16px;
   line-height: 20px;
-  font-size: 18px;  
-`
+  font-size: 18px;
+`;
 
 function Statistics() {
     const [category, setCategory] = useState<'+' | '-'>('-');
-    const {records} = useRecords();
+    const {records,deleteRecord} = useRecords();
     const {getName} = useTags();
     const hash: { [Key: string]: RecordItem[] } = {};
     const selectedRecords = records.filter(r => r.category === category);
@@ -48,19 +48,30 @@ function Statistics() {
         if (a[0] < b[0]) return 1;
         return 0;
     });
+
+    const findItem = (c:string)=>{
+        const index = records.findIndex(r=>r.createdAt===c)
+        if (window.confirm('确认要删除这条记录吗')){
+            deleteRecord(index)
+            window.alert("删除记录成功");
+        }
+    }
+    console.log(records);
+
+
     return (
         <Layout content="明细">
             <CategoryWrapper>
                 <CategorySection value={category}
                                  onChange={value => setCategory(value)}/>
             </CategoryWrapper>
-            {array.map(([date, records]) => <div key={records[0].createdAt}>
+            {array.map(([date, records]) => <div key={records[0].createdAt} >
                     <Header>
                         {date}
                     </Header>
                     <div>
                         {records.map(r => {
-                            return <Item key={r.createdAt}>
+                            return <Item key={r.createdAt} onClick={()=>findItem(r.createdAt)}>
                                 <div className="tags oneLine">
                                     {r.tagIds.map(tagId => <span key={tagId}>{getName(tagId)}</span>)}
                                 </div>

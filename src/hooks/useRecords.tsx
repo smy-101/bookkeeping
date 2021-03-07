@@ -36,7 +36,12 @@ const useRecords = () => {
         setRecords([...records, record]);
         return true;
     };
-    return {records, addRecord};
+    const deleteRecord=(index:number)=>{
+        const newRecords = [...records]
+        newRecords.splice(index,1)
+        setRecords(newRecords)
+    }
+    return {records, addRecord,deleteRecord};
 };
 
 export {useRecords};
